@@ -2,28 +2,25 @@ import { useForm } from 'react-hook-form';
 import z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { completeProfileSchema } from '@/lib/validation';
-import {
-	Form,
-	FormControl,
-	FormField,
-	FormItem,
-	FormLabel,
-	FormMessage,
-} from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { ArrowRight } from 'lucide-react';
 import { IoMdArrowDropright } from 'react-icons/io';
+import { useSignUp } from '../store/use-sign-up';
 
 const CompleteProfile = () => {
+	const { setStep, setUser } = useSignUp();
+
 	const form = useForm<z.infer<typeof completeProfileSchema>>({
 		resolver: zodResolver(completeProfileSchema),
-		defaultValues: { email: '', firstName: '', lastName: '' },
+		defaultValues: { email: 'john@gmail.com', firstName: 'John', lastName: 'Doe' },
 	});
 
 	function onSubmit(values: z.infer<typeof completeProfileSchema>) {
-		console.log(values);
+		setStep('verify-email');
+		setUser(values);
 	}
 
 	return (

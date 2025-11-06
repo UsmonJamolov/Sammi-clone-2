@@ -9,3 +9,9 @@ type SourceCodeType = {
 	title: string;
 	repositoryUrl: string;
 };
+
+type UserType = {
+	email: string;
+	firstName: string;
+	lastName: string;
+};
