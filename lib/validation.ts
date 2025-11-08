@@ -30,3 +30,13 @@ export const passwordFieldSchema = z
 		message: 'Passwords do not match',
 		path: ['confirmPassword'],
 	});
+
+export const signInSchema = (needsPassword: boolean) =>
+	z.object({
+		email: z.string().email(),
+		password: needsPassword ? z.string().min(8).max(100) : z.string().optional(),
+	});
+
+export const enterEmailSchema = z.object({
+	email: z.string().email(),
+});
