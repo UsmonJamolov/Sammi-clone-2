@@ -1,4 +1,5 @@
 import { getCourseBySlug } from '@/actions/course.action';
+
 import ForWhom from '@/components/course/for-whom';
 import Header from '@/components/course/header';
 import Learning from '@/components/course/learning';

@@ -10,7 +10,7 @@ const ForWhom = () => {
 			<div className='mt-5 grid grid-cols-1 gap-4 md:grid-cols-2'>
 				{forWhom.split(', ').map(item => (
 					<div className='flex gap-2' key={item}>
-						<Sparkles className='size-5 text-secondary' />
+						<Sparkles className='size-5 text-muted-foreground' />
 						<p className='text-sm flex-1'>{item}</p>
 					</div>
 				))}
