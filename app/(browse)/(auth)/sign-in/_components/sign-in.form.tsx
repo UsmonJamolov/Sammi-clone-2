@@ -1,14 +1,16 @@
 'use client';
 
+import ErrorAlert from '@/components/shared/error-alert';
 import Reveal from '@/components/shared/reveal';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { axiosClient } from '@/lib/http';
 import { signInSchema } from '@/lib/validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Eye, EyeOff } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { signIn } from 'next-auth/react';
 import { useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { IoMdArrowDropright } from 'react-icons/io';
@@ -17,8 +19,7 @@ import z from 'zod';
 const SignInForm = () => {
 	const [needsPassword, setNeedsPassword] = useState(false);
 	const [showPassword, setShowPassword] = useState(false);
-
-	const router = useRouter();
+	const [error, setError] = useState('');
 
 	const schema = useMemo(() => signInSchema(needsPassword), [needsPassword]);
 
@@ -28,22 +29,51 @@ const SignInForm = () => {
 	});
 
 	const handleCheckEmail = async () => {
+		setError('');
+
 		const isValid = await form.trigger('email');
 		if (!isValid) return;
-		setNeedsPassword(true);
+
+		try {
+			const { data } = await axiosClient.post('/api/auth/verify-email', {
+				email: form.getValues('email'),
+			});
+			if (data.success) {
+				setNeedsPassword(true);
+			}
+		} catch (error) {
+			const result = error as Error;
+			setError(result.message);
+			setTimeout(() => {
+				setError('');
+			}, 2000);
+		}
 	};
 
-	const onSubmit = (values: z.infer<typeof schema>) => {
+	const onSubmit = async (values: z.infer<typeof schema>) => {
 		const { email, password } = values;
 		if (!email || !password) return;
 
-		router.push('/dashboard');
+		try {
+			const { data } = await axiosClient.post('/api/auth/login', values);
+			if (data.success) {
+				signIn('credentials', { userId: data.user._id, callbackUrl: '/dashboard' });
+			}
+		} catch (error) {
+			const result = error as Error;
+			setError(result.message);
+			setTimeout(() => {
+				setError('');
+			}, 2000);
+		}
 	};
 
 	return (
 		<>
 			<Form {...form}>
 				<form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
+					{error && <ErrorAlert message={error} />}
+
 					<FormField
 						control={form.control}
 						name='email'
