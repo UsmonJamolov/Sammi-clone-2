@@ -2,6 +2,7 @@
 
 import ErrorAlert from '@/components/shared/error-alert';
 import Reveal from '@/components/shared/reveal';
+import Spinner from '@/components/shared/spinner';
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
@@ -20,6 +21,7 @@ const SignInForm = () => {
 	const [needsPassword, setNeedsPassword] = useState(false);
 	const [showPassword, setShowPassword] = useState(false);
 	const [error, setError] = useState('');
+	const [loading, setLoading] = useState(false);
 
 	const schema = useMemo(() => signInSchema(needsPassword), [needsPassword]);
 
@@ -29,11 +31,10 @@ const SignInForm = () => {
 	});
 
 	const handleCheckEmail = async () => {
-		setError('');
-
 		const isValid = await form.trigger('email');
 		if (!isValid) return;
 
+		setLoading(true);
 		try {
 			const { data } = await axiosClient.post('/api/auth/verify-email', {
 				email: form.getValues('email'),
@@ -41,12 +42,14 @@ const SignInForm = () => {
 			if (data.success) {
 				setNeedsPassword(true);
 			}
-		} catch (error) {
-			const result = error as Error;
+		} catch (e) {
+			const result = e as Error;
 			setError(result.message);
 			setTimeout(() => {
 				setError('');
-			}, 2000);
+			}, 4000);
+		} finally {
+			setLoading(false);
 		}
 	};
 
@@ -54,17 +57,19 @@ const SignInForm = () => {
 		const { email, password } = values;
 		if (!email || !password) return;
 
+		setLoading(true);
 		try {
 			const { data } = await axiosClient.post('/api/auth/login', values);
 			if (data.success) {
 				signIn('credentials', { userId: data.user._id, callbackUrl: '/dashboard' });
 			}
-		} catch (error) {
-			const result = error as Error;
+		} catch (e) {
+			const result = e as Error;
 			setError(result.message);
 			setTimeout(() => {
 				setError('');
-			}, 2000);
+			}, 4000);
+			setLoading(false);
 		}
 	};
 
@@ -88,6 +93,7 @@ const SignInForm = () => {
 												handleCheckEmail();
 											}
 										}}
+										disabled={loading}
 										{...field}
 									/>
 								</FormControl>
@@ -97,9 +103,18 @@ const SignInForm = () => {
 					/>
 
 					{!needsPassword && (
-						<Button type='button' className='w-full group' onClick={handleCheckEmail}>
+						<Button
+							type='button'
+							className='w-full group'
+							onClick={handleCheckEmail}
+							disabled={loading}
+						>
 							<span>Continue</span>
-							<IoMdArrowDropright className='size-4 transition-transform group-hover:translate-x-1' />
+							{loading ? (
+								<Spinner />
+							) : (
+								<IoMdArrowDropright className='size-4 transition-transform group-hover:translate-x-1' />
+							)}
 						</Button>
 					)}
 
@@ -116,6 +131,7 @@ const SignInForm = () => {
 												<Input
 													placeholder='****'
 													type={showPassword ? 'text' : 'password'}
+													disabled={loading}
 													{...field}
 												/>
 												{showPassword ? (
@@ -137,9 +153,13 @@ const SignInForm = () => {
 									</FormItem>
 								)}
 							/>
-							<Button type='submit' className='w-full group mt-4'>
+							<Button type='submit' className='w-full group mt-4' disabled={loading}>
 								<span>Continue</span>
-								<IoMdArrowDropright className='size-4 transition-transform group-hover:translate-x-1' />
+								{loading ? (
+									<Spinner />
+								) : (
+									<IoMdArrowDropright className='size-4 transition-transform group-hover:translate-x-1' />
+								)}
 							</Button>
 						</Reveal>
 					)}

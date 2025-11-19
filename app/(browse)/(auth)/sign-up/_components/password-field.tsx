@@ -10,26 +10,54 @@ import { Button } from '@/components/ui/button';
 import { IoMdArrowDropright } from 'react-icons/io';
 import { Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
+import { axiosClient } from '@/lib/http';
+import ErrorAlert from '@/components/shared/error-alert';
+import Spinner from '@/components/shared/spinner';
 
 const PasswordField = () => {
+	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState('');
 	const [showPassword, setShowPassword] = useState(false);
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-	const { setStep } = useSignUp();
+	const { setStep, user } = useSignUp();
 
 	const form = useForm<z.infer<typeof passwordFieldSchema>>({
 		resolver: zodResolver(passwordFieldSchema),
 		defaultValues: { password: 'Success123!', confirmPassword: 'Success123!' },
 	});
 
-	function onSubmit(data: z.infer<typeof passwordFieldSchema>) {
-		setStep('done');
+	async function onSubmit(values: z.infer<typeof passwordFieldSchema>) {
+		setLoading(true);
+		try {
+			const payload = {
+				firstName: user?.firstName,
+				lastName: user?.lastName,
+				email: user?.email,
+				password: values.password,
+			};
+			const { data } = await axiosClient.post('/api/auth/register', payload);
+			if (data.success) {
+				setStep('done');
+			}
+		} catch (e) {
+			const result = e as Error;
+			setError(result.message);
+			setTimeout(() => {
+				setError('');
+			}, 4000);
+			setLoading(false);
+		} finally {
+			setLoading(false);
+		}
 	}
 
 	return (
 		<>
 			<Form {...form}>
 				<form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
+					{error && <ErrorAlert message={error} />}
+
 					<FormField
 						control={form.control}
 						name='password'
@@ -41,6 +69,7 @@ const PasswordField = () => {
 										<Input
 											placeholder='****'
 											type={showPassword ? 'text' : 'password'}
+											disabled={loading}
 											{...field}
 										/>
 										{showPassword ? (
@@ -73,6 +102,7 @@ const PasswordField = () => {
 										<Input
 											placeholder='****'
 											type={showConfirmPassword ? 'text' : 'password'}
+											disabled={loading}
 											{...field}
 										/>
 										{showConfirmPassword ? (
@@ -94,9 +124,13 @@ const PasswordField = () => {
 							</FormItem>
 						)}
 					/>
-					<Button type='submit' className='w-full group'>
+					<Button type='submit' className='w-full group' disabled={loading}>
 						<span>Create account</span>
-						<IoMdArrowDropright className='size-4 transition-transform group-hover:translate-x-1' />
+						{loading ? (
+							<Spinner />
+						) : (
+							<IoMdArrowDropright className='size-4 transition-transform group-hover:translate-x-1' />
+						)}
 					</Button>
 				</form>
 			</Form>

@@ -6,27 +6,49 @@ import { Form, FormControl, FormField, FormItem, FormMessage } from '@/component
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
-import { ArrowRight } from 'lucide-react';
 import { IoMdArrowDropright } from 'react-icons/io';
 import { useSignUp } from '../store/use-sign-up';
+import { useState } from 'react';
+import { axiosClient } from '@/lib/http';
+import ErrorAlert from '@/components/shared/error-alert';
+import Spinner from '@/components/shared/spinner';
 
 const CompleteProfile = () => {
+	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState('');
+
 	const { setStep, setUser } = useSignUp();
 
 	const form = useForm<z.infer<typeof completeProfileSchema>>({
 		resolver: zodResolver(completeProfileSchema),
-		defaultValues: { email: 'john@gmail.com', firstName: 'John', lastName: 'Doe' },
+		defaultValues: { email: 'sammibadriddinov@gmail.com', firstName: 'John', lastName: 'Doe' },
 	});
 
-	function onSubmit(values: z.infer<typeof completeProfileSchema>) {
-		setStep('verify-email');
-		setUser(values);
+	async function onSubmit(values: z.infer<typeof completeProfileSchema>) {
+		setLoading(true);
+		try {
+			const { data } = await axiosClient.post('/api/otp/send', { email: values.email });
+			if (data.success) {
+				setStep('verify-email');
+				setUser(values);
+			}
+		} catch (e) {
+			const result = e as Error;
+			setError(result.message);
+			setTimeout(() => {
+				setError('');
+			}, 4000);
+		} finally {
+			setLoading(false);
+		}
 	}
 
 	return (
 		<>
 			<Form {...form}>
 				<form onSubmit={form.handleSubmit(onSubmit)} className='space-y-4'>
+					{error && <ErrorAlert message={error} />}
+
 					<div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
 						<FormField
 							control={form.control}
@@ -35,7 +57,7 @@ const CompleteProfile = () => {
 								<FormItem>
 									<Label>First Name</Label>
 									<FormControl>
-										<Input placeholder='John' {...field} />
+										<Input placeholder='John' disabled={loading} {...field} />
 									</FormControl>
 									<FormMessage />
 								</FormItem>
@@ -48,7 +70,7 @@ const CompleteProfile = () => {
 								<FormItem>
 									<Label>Last Name</Label>
 									<FormControl>
-										<Input placeholder='Doe' {...field} />
+										<Input placeholder='Doe' disabled={loading} {...field} />
 									</FormControl>
 									<FormMessage />
 								</FormItem>
@@ -62,15 +84,19 @@ const CompleteProfile = () => {
 							<FormItem>
 								<Label>Email address</Label>
 								<FormControl>
-									<Input placeholder='john.doe@example.com' {...field} />
+									<Input placeholder='john.doe@example.com' disabled={loading} {...field} />
 								</FormControl>
 								<FormMessage />
 							</FormItem>
 						)}
 					/>
-					<Button type='submit' className='w-full group'>
+					<Button type='submit' className='w-full group' disabled={loading}>
 						<span>Continue</span>
-						<IoMdArrowDropright className='size-4 transition-transform group-hover:translate-x-1' />
+						{loading ? (
+							<Spinner />
+						) : (
+							<IoMdArrowDropright className='size-4 transition-transform group-hover:translate-x-1' />
+						)}
 					</Button>
 				</form>
 			</Form>

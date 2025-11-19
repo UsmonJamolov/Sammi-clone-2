@@ -1,17 +1,23 @@
-type CourseType = {
+export type CourseType = {
 	slug: string;
 	title: string;
 	thumbnail: string;
 };
 
-type SourceCodeType = {
+export type SourceCodeType = {
 	_id: string;
 	title: string;
 	repositoryUrl: string;
 };
 
-type UserType = {
+export type UserType = {
 	email: string;
 	firstName: string;
 	lastName: string;
+	avatar: ImageType;
 };
+
+export type ImageType = {
+	url: string;
+	key: string;
+}
