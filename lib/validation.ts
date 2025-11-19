@@ -59,3 +59,38 @@ export const createCourseSchema = z.object({
 		error: 'Category is required',
 	}),
 });
+
+export const overviewSchema = z.object({
+	title: z
+		.string({ error: 'Title is required' })
+		.min(5, { message: 'Title must be at least 5 characters long' })
+		.max(100),
+	slug: z
+		.string({ error: 'Slug is required' })
+		.min(5, { message: 'Slug must be at least 5 characters long' })
+		.max(100)
+		.trim()
+		.regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, {
+			message: 'Slug can only contain lowercase letters, numbers, and hyphens',
+		}),
+	level: z.enum(['BEGINNER', 'INTERMEDIATE', 'ADVANCED'], { error: 'Level is required' }),
+	category: z.enum(['FRONT-END', 'BACK-END', 'FULL-STACK', 'MOBILE'], {
+		error: 'Category is required',
+	}),
+	excerpt: z
+		.string({ error: 'Excerpt is required' })
+		.min(20, { message: 'Excerpt must be at least 20 characters long' })
+		.max(500),
+	forWhom: z
+		.string({ error: 'This field is required' })
+		.min(20, { message: 'This field must be at least 20 characters long' })
+		.max(500),
+	whatYouWillLearn: z
+		.string({ error: 'This field is required' })
+		.min(20, { message: 'This field must be at least 20 characters long' })
+		.max(500),
+	keywords: z
+		.string({ error: 'Keywords are required' })
+		.min(5, { message: 'Please enter at least one keyword' })
+		.max(200, { message: 'Keywords must be less than 200 characters' }),
+});

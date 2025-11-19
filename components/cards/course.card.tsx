@@ -1,3 +1,4 @@
+import { CourseType } from '@/types/app.type';
 import Image from 'next/image';
 
 interface CourseCardProps {
