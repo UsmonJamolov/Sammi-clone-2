@@ -36,7 +36,7 @@ const CreateCourseModal = () => {
 
 	const form = useForm<z.infer<typeof createCourseSchema>>({
 		resolver: zodResolver(createCourseSchema),
-		defaultValues: {},
+		defaultValues: {category: '', level: '', slug: '', title: ''},
 	});
 
 	async function onSubmit(values: z.infer<typeof createCourseSchema>) {

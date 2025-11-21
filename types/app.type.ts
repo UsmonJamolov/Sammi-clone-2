@@ -35,3 +35,23 @@ export type ImageType = {
 	url: string;
 	key: string;
 };
+
+export type SectionType = {
+	title: string;
+	position: number;
+	course: string | CourseType;
+	lessons: LessonType[];
+	_id: string;
+};
+
+export type LessonType = {
+	title: string;
+	position: number;
+	content: string;
+	videoId: string;
+	hours: number;
+	minutes: number;
+	sectionId: string | SectionType;
+	course: string | CourseType;
+	_id: string;
+};
