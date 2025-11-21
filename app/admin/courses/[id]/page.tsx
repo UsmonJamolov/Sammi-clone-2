@@ -7,21 +7,26 @@ import Overview from './_components/overview';
 import Curriculum from './_components/curriculum';
 import Thumbnail from './_components/thumbnail';
 import Reviews from './_components/reviews';
+import { getCourse } from '@/actions/admin.action';
 
 interface PageProps {
 	params: Promise<{ id: string }>;
-	searchParams: { [key: string]: string };
+	searchParams: Promise<{ tab: string }>;
 }
 
 const Page = async ({ params, searchParams }: PageProps) => {
 	const { id } = await params;
-	const { tab } = searchParams;
+	const { tab } = await searchParams;
+
+	const { data } = await getCourse(id);
+
+	console.log(data);
 
 	return (
 		<div className='mt-4'>
 			<div className='flex justify-between items-center'>
-				<h1 className='text-2xl font-space-grotesk font-semibold'>Webpack</h1>
-				<CourseAction />
+				<h1 className='text-2xl font-space-grotesk font-semibold'>{data.title}</h1>
+				<CourseAction courseData={data} />
 			</div>
 			<Separator className='my-4' />
 			<div className='grid grid-cols-5 gap-x-4'>
@@ -52,10 +57,10 @@ const Page = async ({ params, searchParams }: PageProps) => {
 					</div>
 				</div>
 				<div className='col-span-4'>
-					{tab === 'overview' && <Overview />}
-					{tab === 'curriculum' && <Curriculum />}
-					{tab === 'thumbnail' && <Thumbnail />}
-					{tab === 'reviews' && <Reviews />}
+					{tab === 'overview' && <Overview courseData={data} />}
+					{tab === 'curriculum' && <Curriculum courseData={data} />}
+					{tab === 'thumbnail' && <Thumbnail courseData={data} />}
+					{tab === 'reviews' && <Reviews courseData={data} />}
 				</div>
 			</div>
 		</div>

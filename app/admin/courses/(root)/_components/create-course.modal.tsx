@@ -1,5 +1,7 @@
 'use client';
 
+import { createCourse } from '@/actions/admin.action';
+import Spinner from '@/components/shared/spinner';
 import {
 	AlertDialog,
 	AlertDialogCancel,
@@ -23,21 +25,37 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { createCourseSchema } from '@/lib/validation';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import z from 'zod';
 
 const CreateCourseModal = () => {
+	const [open, setOpen] = useState(false);
+	const [loading, setLoading] = useState(false);
+
 	const form = useForm<z.infer<typeof createCourseSchema>>({
 		resolver: zodResolver(createCourseSchema),
 		defaultValues: {},
 	});
 
-	function onSubmit(values: z.infer<typeof createCourseSchema>) {
-		console.log(values);
+	async function onSubmit(values: z.infer<typeof createCourseSchema>) {
+		setLoading(true);
+		try {
+			await createCourse({ ...values, type: 'course' });
+			toast.success('Course created successfully');
+			form.reset();
+			setOpen(false);
+		} catch (error) {
+			const result = error as Error;
+			toast.error(result.message);
+		} finally {
+			setLoading(false);
+		}
 	}
 
 	return (
-		<AlertDialog>
+		<AlertDialog open={open} onOpenChange={setOpen}>
 			<AlertDialogTrigger asChild>
 				<Button size={'sm'}>Create Course</Button>
 			</AlertDialogTrigger>
@@ -60,7 +78,7 @@ const CreateCourseModal = () => {
 									<FormItem className='gap-1'>
 										<Label>Title</Label>
 										<FormControl>
-											<Input placeholder='Next.js 15' {...field} />
+											<Input placeholder='Next.js 15' disabled={loading} {...field} />
 										</FormControl>
 										<FormMessage />
 									</FormItem>
@@ -73,7 +91,7 @@ const CreateCourseModal = () => {
 									<FormItem className='gap-1'>
 										<Label>Slug</Label>
 										<FormControl>
-											<Input placeholder='nextjs' {...field} />
+											<Input placeholder='nextjs' disabled={loading} {...field} />
 										</FormControl>
 										<FormMessage />
 									</FormItem>
@@ -85,7 +103,11 @@ const CreateCourseModal = () => {
 								render={({ field }) => (
 									<FormItem className='gap-1'>
 										<Label>Level</Label>
-										<Select onValueChange={field.onChange} defaultValue={field.value}>
+										<Select
+											onValueChange={field.onChange}
+											disabled={loading}
+											defaultValue={field.value}
+										>
 											<FormControl>
 												<SelectTrigger className='w-full'>
 													<SelectValue placeholder='Select a category' />
@@ -107,7 +129,11 @@ const CreateCourseModal = () => {
 								render={({ field }) => (
 									<FormItem className='gap-1'>
 										<Label>Category</Label>
-										<Select onValueChange={field.onChange} defaultValue={field.value}>
+										<Select
+											onValueChange={field.onChange}
+											disabled={loading}
+											defaultValue={field.value}
+										>
 											<FormControl>
 												<SelectTrigger className='w-full'>
 													<SelectValue placeholder='Select a category' />
@@ -127,7 +153,10 @@ const CreateCourseModal = () => {
 						</div>
 						<div className='flex justify-end pt-4 gap-x-2'>
 							<AlertDialogCancel>Cancel</AlertDialogCancel>
-							<Button type='submit'>Submit</Button>
+							<Button type='submit' disabled={loading}>
+								<span>Submit</span>
+								{loading && <Spinner />}
+							</Button>
 						</div>
 					</form>
 				</Form>

@@ -73,22 +73,11 @@ export const overviewSchema = z.object({
 		.regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/, {
 			message: 'Slug can only contain lowercase letters, numbers, and hyphens',
 		}),
-	level: z.enum(['BEGINNER', 'INTERMEDIATE', 'ADVANCED'], { error: 'Level is required' }),
-	category: z.enum(['FRONT-END', 'BACK-END', 'FULL-STACK', 'MOBILE'], {
-		error: 'Category is required',
-	}),
-	excerpt: z
-		.string({ error: 'Excerpt is required' })
-		.min(20, { message: 'Excerpt must be at least 20 characters long' })
-		.max(500),
-	forWhom: z
-		.string({ error: 'This field is required' })
-		.min(20, { message: 'This field must be at least 20 characters long' })
-		.max(500),
-	whatYouWillLearn: z
-		.string({ error: 'This field is required' })
-		.min(20, { message: 'This field must be at least 20 characters long' })
-		.max(500),
+	level: z.string({ error: 'Level is required' }),
+	category: z.string({ error: 'Category is required' }),
+	excerpt: z.string({ error: 'Excerpt is required' }).max(500),
+	forWhom: z.string({ error: 'This field is required' }).max(500),
+	whatYouWillLearn: z.string({ error: 'This field is required' }).max(500),
 	keywords: z
 		.string({ error: 'Keywords are required' })
 		.min(5, { message: 'Please enter at least one keyword' })

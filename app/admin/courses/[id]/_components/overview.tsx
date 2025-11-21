@@ -20,17 +20,36 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import z from 'zod';
 import { VscDiscard } from 'react-icons/vsc';
+import { CourseType } from '@/types/app.type';
+import { toast } from 'sonner';
+import { updateCourse } from '@/actions/admin.action';
+import Spinner from '@/components/shared/spinner';
 
-const Overview = () => {
+interface Props {
+	courseData: CourseType;
+}
+
+const Overview = ({ courseData }: Props) => {
 	const [edit, setEdit] = useState(false);
+	const [loading, setLoading] = useState(false);
 
 	const form = useForm<z.infer<typeof overviewSchema>>({
 		resolver: zodResolver(overviewSchema),
-		defaultValues: {},
+		defaultValues: courseData,
 	});
 
-	function onSubmit(values: z.infer<typeof overviewSchema>) {
-		console.log(values);
+	async function onSubmit(values: z.infer<typeof overviewSchema>) {
+		setLoading(true);
+		try {
+			await updateCourse(courseData._id, values);
+			toast.success('Course updated successfully');
+			setEdit(false);
+		} catch (error) {
+			const result = error as Error;
+			toast.error(result.message);
+		} finally {
+			setLoading(false);
+		}
 	}
 
 	const toggleEdit = () => setEdit(prev => !prev);
@@ -50,57 +69,50 @@ const Overview = () => {
 				<div className='grid grid-cols-2 gap-4'>
 					<div className='flex flex-col space-y-0'>
 						<h2 className='text-lg font-medium'>Title</h2>
-						<p className='text-muted-foreground'>Webpack</p>
+						<p className='text-muted-foreground'>{courseData.title}</p>
 					</div>
 
 					<div className='flex flex-col space-y-0'>
 						<h2 className='text-lg font-medium'>Slug</h2>
-						<p className='text-muted-foreground'>webpack</p>
+						<p className='text-muted-foreground'>{courseData.slug}</p>
 					</div>
 
 					<div className='flex flex-col space-y-0 col-span-2'>
 						<h2 className='text-lg font-medium'>Excerpt</h2>
 						<p className='text-muted-foreground'>
-							Lorem, ipsum dolor sit amet consectetur adipisicing elit. Natus laboriosam placeat
-							iure? Facilis veniam impedit, provident voluptatum est atque necessitatibus.
+							{courseData.excerpt || 'No excerpt provided for this course.'}
 						</p>
 					</div>
 
 					<div className='flex flex-col space-y-0'>
 						<h2 className='text-lg font-medium'>Category</h2>
-						<p className='text-muted-foreground'>Fron-end</p>
+						<p className='text-muted-foreground'>{courseData.category}</p>
 					</div>
 
 					<div className='flex flex-col space-y-0'>
 						<h2 className='text-lg font-medium'>Level</h2>
-						<p className='text-muted-foreground'>Beginner</p>
+						<p className='text-muted-foreground'>{courseData.level}</p>
 					</div>
 
 					<div className='flex flex-col space-y-0'>
 						<h2 className='text-lg font-medium'>Course for whom</h2>
 						<p className='text-muted-foreground'>
-							Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptatum, magnam?
+							{courseData.forWhom || 'No target audience provided for this course.'}
 						</p>
 					</div>
 
 					<div className='flex flex-col space-y-0'>
-						<h2 className='text-lg font-medium'>Wehat students will learn</h2>
+						<h2 className='text-lg font-medium'>What students will learn</h2>
 						<p className='text-muted-foreground'>
-							Lorem ipsum dolor sit amet consectetur adipisicing elit. Officia, deleniti?
+							{courseData.whatYouWillLearn ||
+								'No information provided for what students will learn.'}
 						</p>
 					</div>
 
 					<div className='flex flex-col space-y-0 col-span-2'>
 						<h2 className='text-lg font-medium'>Keywords</h2>
 						<p className='text-muted-foreground line-clamp-4'>
-							Lorem ipsum, dolor sit amet consectetur adipisicing elit. Neque odio blanditiis ipsam,
-							assumenda, quod officia exercitationem dolor quisquam nesciunt unde delectus non
-							veritatis? Illo neque voluptas, in assumenda, voluptate commodi ex, ad dolores quae
-							cum odio perferendis iure? Facilis, eos?Lorem ipsum dolor sit amet, consectetur
-							adipisicing elit. Accusantium, atque magnam maxime beatae totam recusandae voluptates
-							ratione distinctio id, dicta dolore possimus aspernatur ea placeat nostrum dolor in
-							rerum numquam velit impedit natus? Sunt, aspernatur quod voluptates maxime dolore
-							sapiente!
+							{courseData.keywords || 'No keywords provided for this course.'}
 						</p>
 					</div>
 				</div>
@@ -117,7 +129,7 @@ const Overview = () => {
 									<FormItem className='gap-1'>
 										<Label>Title</Label>
 										<FormControl>
-											<Input placeholder='Next.js 15' {...field} />
+											<Input placeholder='Next.js 15' disabled={loading} {...field} />
 										</FormControl>
 										<FormMessage />
 									</FormItem>
@@ -130,7 +142,7 @@ const Overview = () => {
 									<FormItem className='gap-1'>
 										<Label>Slug</Label>
 										<FormControl>
-											<Input placeholder='nextjs' {...field} />
+											<Input placeholder='nextjs' disabled={loading} {...field} />
 										</FormControl>
 										<FormMessage />
 									</FormItem>
@@ -146,6 +158,7 @@ const Overview = () => {
 											<Textarea
 												placeholder='Nextjs course about Webpack'
 												className='resize-none h-24'
+												disabled={loading}
 												{...field}
 											/>
 										</FormControl>
@@ -159,7 +172,11 @@ const Overview = () => {
 								render={({ field }) => (
 									<FormItem className='gap-1'>
 										<Label>Level</Label>
-										<Select onValueChange={field.onChange} defaultValue={field.value}>
+										<Select
+											onValueChange={field.onChange}
+											defaultValue={field.value}
+											disabled={loading}
+										>
 											<FormControl>
 												<SelectTrigger className='w-full'>
 													<SelectValue placeholder='Select a category' />
@@ -181,7 +198,11 @@ const Overview = () => {
 								render={({ field }) => (
 									<FormItem className='gap-1'>
 										<Label>Category</Label>
-										<Select onValueChange={field.onChange} defaultValue={field.value}>
+										<Select
+											onValueChange={field.onChange}
+											defaultValue={field.value}
+											disabled={loading}
+										>
 											<FormControl>
 												<SelectTrigger className='w-full'>
 													<SelectValue placeholder='Select a category' />
@@ -200,7 +221,43 @@ const Overview = () => {
 							/>
 							<FormField
 								control={form.control}
-								name='excerpt'
+								name='forWhom'
+								render={({ field }) => (
+									<FormItem className='gap-1'>
+										<Label>For Whom</Label>
+										<FormControl>
+											<Textarea
+												placeholder='This course is for...'
+												className='h-12 resize-none'
+												disabled={loading}
+												{...field}
+											/>
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+							<FormField
+								control={form.control}
+								name='whatYouWillLearn'
+								render={({ field }) => (
+									<FormItem className='gap-1'>
+										<Label>What Students Will Learn</Label>
+										<FormControl>
+											<Textarea
+												placeholder='React, Nextjs, Webpack'
+												className='h-12 resize-none'
+												disabled={loading}
+												{...field}
+											/>
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+							<FormField
+								control={form.control}
+								name='keywords'
 								render={({ field }) => (
 									<FormItem className='gap-1 col-span-2'>
 										<Label>Keywords</Label>
@@ -208,6 +265,7 @@ const Overview = () => {
 											<Textarea
 												placeholder='Nextjs course, React course, Webpack course'
 												className='h-24'
+												disabled={loading}
 												{...field}
 											/>
 										</FormControl>
@@ -216,14 +274,20 @@ const Overview = () => {
 								)}
 							/>
 
-							<Button type='button' variant={'secondary'} size={'lg'} onClick={toggleEdit}>
+							<Button
+								type='button'
+								variant={'secondary'}
+								size={'lg'}
+								onClick={toggleEdit}
+								disabled={loading}
+							>
 								<span>Discard Changes</span>
 								<VscDiscard />
 							</Button>
 
-							<Button type='submit' size={'lg'}>
+							<Button type='submit' size={'lg'} disabled={loading}>
 								<span>Save Changes</span>
-								<Save />
+								{loading ? <Spinner /> : <Save />}
 							</Button>
 						</div>
 					</form>

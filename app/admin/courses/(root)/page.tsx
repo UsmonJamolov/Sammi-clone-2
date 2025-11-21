@@ -1,8 +1,11 @@
 import { Separator } from '@/components/ui/separator';
 import CreateCourseModal from './_components/create-course.modal';
 import CourseCard from './_components/course.card';
+import { getCourses } from '@/actions/admin.action';
 
-const Page = () => {
+const Page = async () => {
+	const res = await getCourses();
+
 	return (
 		<div className='mt-4'>
 			<div className='flex justify-between items-center'>
@@ -12,7 +15,9 @@ const Page = () => {
 			<Separator className='my-4' />
 
 			<div className='grid grid-cols-3 gap-4'>
-				<CourseCard />
+				{res.data.map(course => (
+					<CourseCard key={course._id} course={course} />
+				))}
 			</div>
 		</div>
 	);

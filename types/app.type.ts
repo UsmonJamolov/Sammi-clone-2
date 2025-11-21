@@ -1,6 +1,19 @@
 export type CourseType = {
-	slug: string;
+	_id: string;
 	title: string;
+	slug: string;
+	level: string;
+	category: string;
+	excerpt: string;
+	forWhom: string;
+	whatYouWillLearn: string;
+	keywords: string;
+	isPublished: boolean;
+	type: string;
+	createdAt: string;
+
+	previewImage: ImageType;
+
 	thumbnail: string;
 };
 
@@ -11,6 +24,7 @@ export type SourceCodeType = {
 };
 
 export type UserType = {
+	_id: string;
 	email: string;
 	firstName: string;
 	lastName: string;
@@ -20,4 +34,4 @@ export type UserType = {
 export type ImageType = {
 	url: string;
 	key: string;
-}
+};
