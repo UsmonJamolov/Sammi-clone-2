@@ -8,7 +8,7 @@ interface Props {
 	courseData: CourseType;
 }
 
-const Curriculum = async ({ courseData }: Props) => {
+const Sections = async ({ courseData }: Props) => {
 	const { data } = await getSections(courseData._id);
 
 	console.log(data);
@@ -16,7 +16,7 @@ const Curriculum = async ({ courseData }: Props) => {
 	return (
 		<div className='bg-sidebar p-6 rounded-md border'>
 			<div className='flex items-center justify-between'>
-				<h1 className='text-2xl font-semibold font-space-grotesk'>Curriculum</h1>
+				<h1 className='text-2xl font-semibold font-space-grotesk'>Sections</h1>
 				<CreateSectionModal />
 			</div>
 
@@ -30,4 +30,4 @@ const Curriculum = async ({ courseData }: Props) => {
 	);
 };
 
-export default Curriculum;
+export default Sections;

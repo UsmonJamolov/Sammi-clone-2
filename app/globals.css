@@ -124,3 +124,19 @@
 .remove-icon > svg {
 	display: none !important;
 }
+
+.ql-toolbar {
+	@apply bg-input/30 !border rounded-t-lg !border-secondary-foreground/10 !text-white;
+}
+
+.ql-toolbar button {
+	@apply text-white;
+}
+
+.ql-container.ql-snow {
+	@apply bg-input/30 border rounded-b-lg !border-secondary-foreground/10;
+}
+
+.ql-editor {
+	min-height: 70px;
+}

@@ -1,7 +1,7 @@
 'use server';
 
 import { axiosClient } from '@/lib/http';
-import { CourseType, SectionType } from '@/types/app.type';
+import { CourseType, LessonType, SectionType } from '@/types/app.type';
 import { revalidatePath } from 'next/cache';
 
 export const getCourse = async (courseId: string) => {
@@ -14,6 +14,10 @@ export const getCourses = async () => {
 };
 export const getSections = async (courseId: string) => {
 	const res = await axiosClient.get(`/api/admin/get-sections/${courseId}`);
+	return res.data;
+};
+export const getLessons = async (sectionId: string) => {
+	const res = await axiosClient.get<{ data: LessonType[] }>(`/api/admin/get-lessons/${sectionId}`);
 	return res.data;
 };
 
@@ -30,6 +34,11 @@ export const createSection = async (data: Partial<SectionType>) => {
 	revalidatePath(`/admin/courses/${data.course}`);
 	return res.data;
 };
+export const createLesson = async (data: Partial<LessonType>) => {
+	const res = await axiosClient.post(`/api/admin/create-lesson`, data);
+	revalidatePath(`/admin/courses/${data.course}`);
+	return res.data;
+};
 
 export const updateCourse = async (courseId: string, data: Partial<CourseType>) => {
 	const res = await axiosClient.put(`/api/admin/update-course/${courseId}`, data);
@@ -41,6 +50,11 @@ export const updateSection = async (sectionId: string, data: Partial<SectionType
 	revalidatePath(`/admin/courses/${data.course}`);
 	return res.data;
 };
+export const updateLesson = async (lessonId: string, data: Partial<LessonType>) => {
+	const res = await axiosClient.put(`/api/admin/update-lesson/${lessonId}`, data);
+	revalidatePath(`/admin/courses/${data.course}`);
+	return res.data;
+};
 
 export const deleteCourse = async (courseId: string) => {
 	const res = await axiosClient.delete(`/api/admin/delete-course/${courseId}`);
@@ -49,6 +63,11 @@ export const deleteCourse = async (courseId: string) => {
 };
 export const deleteSection = async (sectionId: string, courseId: string) => {
 	const res = await axiosClient.delete(`/api/admin/delete-section/${sectionId}`);
+	revalidatePath(`/admin/courses/${courseId}`);
+	return res.data;
+};
+export const deleteLesson = async (lessonId: string, courseId: string) => {
+	const res = await axiosClient.delete(`/api/admin/delete-lesson/${lessonId}`);
 	revalidatePath(`/admin/courses/${courseId}`);
 	return res.data;
 };

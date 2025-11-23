@@ -4,23 +4,22 @@ import { FolderKanban, ImageIcon, List, MessageSquareReply } from 'lucide-react'
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import Overview from './_components/overview';
-import Curriculum from './_components/curriculum';
 import Thumbnail from './_components/thumbnail';
 import Reviews from './_components/reviews';
 import { getCourse } from '@/actions/admin.action';
+import Lesson from './_components/lesson';
+import Sections from './_components/curriculum';
 
 interface PageProps {
 	params: Promise<{ id: string }>;
-	searchParams: Promise<{ tab: string }>;
+	searchParams: Promise<{ tab: string; section?: string }>;
 }
 
 const Page = async ({ params, searchParams }: PageProps) => {
 	const { id } = await params;
-	const { tab } = await searchParams;
+	const { tab, section } = await searchParams;
 
 	const { data } = await getCourse(id);
-
-	console.log(data);
 
 	return (
 		<div className='mt-4'>
@@ -58,7 +57,8 @@ const Page = async ({ params, searchParams }: PageProps) => {
 				</div>
 				<div className='col-span-4'>
 					{tab === 'overview' && <Overview courseData={data} />}
-					{tab === 'curriculum' && <Curriculum courseData={data} />}
+					{tab === 'sections' && <Sections courseData={data} />}
+					{tab === 'lesson' && <Lesson courseData={data} sectionId={section} />}
 					{tab === 'thumbnail' && <Thumbnail courseData={data} />}
 					{tab === 'reviews' && <Reviews courseData={data} />}
 				</div>
@@ -71,7 +71,7 @@ export default Page;
 
 const items = [
 	{ title: 'overview', icon: FolderKanban },
-	{ title: 'curriculum', icon: List },
+	{ title: 'sections', icon: List },
 	{ title: 'thumbnail', icon: ImageIcon },
 	{ title: 'reviews', icon: MessageSquareReply },
 ];
