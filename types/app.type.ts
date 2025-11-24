@@ -12,7 +12,8 @@ export type CourseType = {
 	type: string;
 	createdAt: string;
 
-	previewImage: ImageType;
+	previewImage: string;
+	previewVideo: string;
 
 	thumbnail: string;
 };
