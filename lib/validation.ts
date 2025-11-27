@@ -93,3 +93,8 @@ export const lessonSchema = z.object({
 	minutes: z.string({ error: 'Minutes is required' }),
 	hours: z.string({ error: 'Hours is required' }),
 });
+
+export const sourceCodeSchema = z.object({
+	title: z.string({ error: 'Title is required' }).min(5).max(100),
+	url: z.string({ error: 'URL is required' }).url('Invalid URL').max(200),
+});

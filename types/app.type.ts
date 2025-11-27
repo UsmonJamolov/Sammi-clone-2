@@ -18,25 +18,6 @@ export type CourseType = {
 	thumbnail: string;
 };
 
-export type SourceCodeType = {
-	_id: string;
-	title: string;
-	repositoryUrl: string;
-};
-
-export type UserType = {
-	_id: string;
-	email: string;
-	firstName: string;
-	lastName: string;
-	avatar: ImageType;
-};
-
-export type ImageType = {
-	url: string;
-	key: string;
-};
-
 export type SectionType = {
 	title: string;
 	position: number;
@@ -55,4 +36,23 @@ export type LessonType = {
 	sectionId: string | SectionType;
 	course: string | CourseType;
 	_id: string;
+};
+
+export type SourceCodeType = {
+	_id: string;
+	title: string;
+	url: string;
+};
+
+export type UserType = {
+	_id: string;
+	email: string;
+	firstName: string;
+	lastName: string;
+	avatar: ImageType;
+};
+
+export type ImageType = {
+	url: string;
+	key: string;
 };
