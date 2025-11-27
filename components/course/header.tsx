@@ -1,25 +1,25 @@
+import { CourseType } from '@/types/app.type';
 import { CalendarDays, List, Star, User } from 'lucide-react';
 import Image from 'next/image';
 
-const Header = () => {
+interface HeaderProps {
+	courseData: CourseType
+}
+
+const Header = ({courseData}: HeaderProps) => {
 	return (
 		<div className='p-4 lg:p-8 border rounded-lg grid grid-cols-5 gap-x-4 items-center bg-gradient-to-br from-sidebar to-primary/50'>
 			<div className='col-span-3 space-y-4 max-md:col-span-5'>
 				<div className='h-52 md:hidden w-full relative rounded-lg'>
 					<Image
-						src={'https://qk9g5hsrut.ufs.sh/f/xu965PmyvPo0z3TZofoOgTrMqidoG8sfm7k3ePCQ2VuYZtKa'}
-						alt='Course thumbnail'
+						src={courseData.previewImage}
+						alt={courseData.title}
 						fill
 						className='object-cover rounded-lg'
 					/>
 				</div>
-				<h1 className='text-3xl font-space-grotesk font-semibold'>Foundation</h1>
-				<p className='text-sm text-muted-foreground leading-4'>
-					Foundation to'liq kurs o'zbek tilida. HTML, CSS, JavaScript (BEM), Bootstrap, SASS (SCSS)
-					va amaliy loyihlar barchasi bitta kurs va asosiysi mutloqo bepul. O'zingizni birinchi web
-					saytingizni yashashingiz mumkin va uni hosting joylashni ham sizga batafsil ma'lumot
-					beramiz.
-				</p>
+				<h1 className='text-3xl font-space-grotesk font-semibold'>{courseData.title}</h1>
+				<p className='text-sm text-muted-foreground leading-4'>{courseData.excerpt}</p>
 
 				<div className='flex items-center gap-x-6 flex-wrap'>
 					<div className='flex items-center gap-x-2'>
@@ -51,8 +51,8 @@ const Header = () => {
 			</div>
 			<div className='col-span-2 relative h-64 w-full rounded-lg max-md:hidden'>
 				<Image
-					src={'https://qk9g5hsrut.ufs.sh/f/xu965PmyvPo0z3TZofoOgTrMqidoG8sfm7k3ePCQ2VuYZtKa'}
-					alt='Course thumbnail'
+					src={courseData.previewImage}
+					alt={courseData.title}
 					fill
 					className='object-cover rounded-lg'
 				/>

@@ -1,7 +1,12 @@
+import { CourseType } from '@/types/app.type';
 import { Sparkles } from 'lucide-react';
 
-const ForWhom = () => {
-	const forWhom = 'Beginners, Students, Professionals';
+interface ForWhomProps {
+	courseData: CourseType;
+}
+
+const ForWhom = ({ courseData }: ForWhomProps) => {
+	const forWhom = courseData.forWhom;
 
 	return (
 		<div className='p-4 lg:p-8 border rounded-lg bg-card mt-5'>

@@ -1,8 +1,12 @@
+import { CourseType } from '@/types/app.type';
 import { CheckCircle } from 'lucide-react';
 
-const Learning = () => {
-	const learning =
-		'HTML, JavaScript, CSS, React, Next.js, Node.js, Express, MongoDB, RESTful APIs, Authentication, Deployment';
+interface LearningProps {
+	courseData: CourseType;
+}
+
+const Learning = ({ courseData }: LearningProps) => {
+	const learning = courseData.whatYouWillLearn;
 
 	return (
 		<div className='p-4 lg:p-8 border rounded-lg bg-card'>

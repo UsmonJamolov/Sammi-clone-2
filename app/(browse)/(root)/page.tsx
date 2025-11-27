@@ -1,11 +1,13 @@
+import { getHomePageData } from '@/actions/public.action';
 import CourseCard from '@/components/cards/course.card';
 import SourceCodeCard from '@/components/cards/source-code.card';
 import { Button } from '@/components/ui/button';
-import { newCourses, newProjects, sourceCodes } from '@/lib/constants';
 import { Sparkles } from 'lucide-react';
 import Link from 'next/link';
 
-const HomePage = () => {
+const HomePage = async () => {
+	const {data} = await getHomePageData()
+	
 	return (
 		<>
 			<div className='grid grid-cols-5 gap-x-4 items-center border rounded-lg p-8 max-md:p-4 bg-gradient-to-br from-sidebar to-primary/40'>
@@ -37,7 +39,7 @@ const HomePage = () => {
 				</Button>
 
 				<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mt-4'>
-					{newCourses.map(course => (
+					{data.courses.map(course => (
 						<Link href={`/courses/${course.slug}`} key={course.slug}>
 							<CourseCard course={course} />
 						</Link>
@@ -51,7 +53,7 @@ const HomePage = () => {
 				</Button>
 
 				<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mt-4'>
-					{newProjects.map(project => (
+					{data.projects.map(project => (
 						<Link href={`/projects/${project.slug}`} key={project.slug}>
 							<CourseCard course={project} />
 						</Link>
@@ -65,7 +67,7 @@ const HomePage = () => {
 				</Button>
 
 				<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mt-4'>
-					{sourceCodes.map(sourceCode => (
+					{data.sourceCodes.map(sourceCode => (
 						<SourceCodeCard sourceCode={sourceCode} key={sourceCode._id} />
 					))}
 				</div>

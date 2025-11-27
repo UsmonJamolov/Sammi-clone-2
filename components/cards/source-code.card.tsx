@@ -1,3 +1,5 @@
+'use client'
+
 import { SourceCodeType } from '@/types/app.type';
 import { Github } from 'lucide-react';
 
@@ -7,7 +9,10 @@ interface SourceCodeCardProps {
 
 const SourceCodeCard = ({ sourceCode }: SourceCodeCardProps) => {
 	return (
-		<div className='p-4 rounded-lg flex justify-between items-center bg-gradient-to-br from-card to-primary/50'>
+		<div
+			className='p-4 rounded-lg flex justify-between items-center bg-gradient-to-br from-card to-primary/50 cursor-pointer'
+			onClick={() => window.open(sourceCode.url, '_blank')}
+		>
 			<h2 className='text-xl font-space-grotesk font-semibold line-clamp-1 truncate'>
 				{sourceCode.title}
 			</h2>
