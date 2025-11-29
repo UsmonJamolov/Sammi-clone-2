@@ -45,7 +45,7 @@ const CreateLessonModal = ({ children, lessonId, lessonData }: CreateLessonModal
 
 	const form = useForm<z.infer<typeof lessonSchema>>({
 		resolver: zodResolver(lessonSchema),
-		defaultValues: { title: '', content: '', hours: '', minutes: '', videoId: '' },
+		defaultValues: { title: '', content: '', hours: '0', minutes: '0', videoId: '' },
 	});
 
 	async function onSubmit(values: z.infer<typeof lessonSchema>) {

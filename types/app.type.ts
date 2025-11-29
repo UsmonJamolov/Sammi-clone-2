@@ -15,6 +15,9 @@ export type CourseType = {
 	previewImage: string;
 	previewVideo: string;
 
+	duration: string;
+	lessonCount: number;
+
 	thumbnail: string;
 };
 

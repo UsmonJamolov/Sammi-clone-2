@@ -79,7 +79,6 @@ export const overviewSchema = z.object({
 	keywords: z
 		.string({ error: 'Keywords are required' })
 		.min(5, { message: 'Please enter at least one keyword' })
-		.max(200, { message: 'Keywords must be less than 200 characters' }),
 });
 
 export const sectionSchema = z.object({

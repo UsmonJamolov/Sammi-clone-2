@@ -1,6 +1,7 @@
 import { CourseType } from '@/types/app.type';
 import { CalendarDays, List, Star, User } from 'lucide-react';
 import Image from 'next/image';
+import {format} from 'date-fns'
 
 interface HeaderProps {
 	courseData: CourseType
@@ -28,17 +29,17 @@ const Header = ({courseData}: HeaderProps) => {
 					</div>
 					<div className='flex items-center gap-x-2'>
 						<CalendarDays className='size-5' />
-						<span>2024, 1-August</span>
+						<span>{format(courseData.createdAt, 'yyyy, d-MMM')}</span>
 					</div>
 					<div className='flex items-center gap-x-2'>
 						<List className='size-5' />
-						<span>20 lessons</span>
+						<span>{courseData.lessonCount}</span>
 					</div>
 				</div>
 
 				<div className='flex items-center gap-x-6 flex-wrap'>
 					<div>
-						Duration: <span className='font-medium'>12 hours 55 minutes</span>
+						Duration: <span className='font-medium'>{courseData.duration}</span>
 					</div>
 					<div className='flex items-center gap-x-1'>
 						<span className='text-yellow-600 font-semibold'>5</span>

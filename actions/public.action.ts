@@ -1,7 +1,7 @@
 'use server';
 
 import { axiosClient } from '@/lib/http';
-import { CourseType, SourceCodeType } from '@/types/app.type';
+import { CourseType, LessonType, SectionType, SourceCodeType } from '@/types/app.type';
 
 type HomePageData = {
 	data: { courses: CourseType[]; projects: CourseType[]; sourceCodes: SourceCodeType[] };
@@ -28,5 +28,13 @@ export const getProjectBySlug = async (slug: string) => {
 };
 export const getSourceCodes = async () => {
 	const res = await axiosClient.get<{ data: SourceCodeType[] }>('/api/source-codes');
+	return res.data;
+};
+export const getCurriculumByCourseId = async (courseId: string) => {
+	const res = await axiosClient.get<{ data: SectionType[] }>(`/api/curriculum-course/${courseId}`);
+	return res.data;
+};
+export const getCurriculumByProjectId = async (projectId: string) => {
+	const res = await axiosClient.get<{ data: LessonType[] }>(`/api/curriculum-project/${projectId}`);
 	return res.data;
 };

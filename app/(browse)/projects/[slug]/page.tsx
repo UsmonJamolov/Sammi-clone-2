@@ -24,7 +24,7 @@ const CourseDetailsPage = async ({ params }: CourseDetailsPageProps) => {
 			<div className='flex mt-6 w-full items-start gap-x-4'>
 				<div className='w-full lg:w-2/3'>
 					<Learning courseData={data} />
-					<Curriculum />
+					<Curriculum projectId={data._id} />
 					<ForWhom courseData={data} />
 					<Review />
 				</div>
