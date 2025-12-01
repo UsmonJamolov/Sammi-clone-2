@@ -18,7 +18,7 @@ const Layout = async ({ children, params }: LayoutProps) => {
 
 	return (
 		<SidebarProvider style={sidebarStyle}>
-			<CourseSidebar />
+			<CourseSidebar slug={slug} />
 
 			<main className='w-full lg:mr-2'>
 				<Navbar />

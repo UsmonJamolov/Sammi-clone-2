@@ -11,6 +11,7 @@ export type CourseType = {
 	isPublished: boolean;
 	type: string;
 	createdAt: string;
+	enrollmentCount: number
 
 	previewImage: string;
 	previewVideo: string;

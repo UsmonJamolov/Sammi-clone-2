@@ -9,16 +9,25 @@ import {
 } from '@/components/ui/sidebar';
 import SectionList from './section.list';
 import { Progress } from '@/components/ui/progress';
+import { getCourseCurriculum } from '@/actions/course.action';
 
-const CourseSidebar = () => {
+interface CourseSidebarProps {
+	slug: string;
+}
+
+const CourseSidebar = async ({ slug }: CourseSidebarProps) => {
+	const result = await getCourseCurriculum(slug);
+
 	return (
 		<Sidebar variant='floating' collapsible='offcanvas'>
 			<SidebarContent>
 				<SidebarGroup>
-					<SidebarGroupLabel className='font-space-grotesk'>JavaScript</SidebarGroupLabel>
+					<SidebarGroupLabel className='font-space-grotesk'>
+						{result.data.course.title}
+					</SidebarGroupLabel>
 					<SidebarGroupContent>
 						<SidebarMenu>
-							<SectionList />
+							<SectionList sections={result.data.sections} />
 						</SidebarMenu>
 					</SidebarGroupContent>
 				</SidebarGroup>
@@ -26,7 +35,7 @@ const CourseSidebar = () => {
 
 			<SidebarFooter className='flex items-center justify-center'>
 				<Progress />
-				<div className='font-space-grotesk'>10% Completed</div>
+				<div className='font-space-grotesk'>{result.data.progress}% Completed</div>
 			</SidebarFooter>
 		</Sidebar>
 	);

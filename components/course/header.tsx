@@ -25,7 +25,7 @@ const Header = ({courseData}: HeaderProps) => {
 				<div className='flex items-center gap-x-6 flex-wrap'>
 					<div className='flex items-center gap-x-2'>
 						<User className='size-5' />
-						<span>100 students</span>
+						<span>{courseData.enrollmentCount} students</span>
 					</div>
 					<div className='flex items-center gap-x-2'>
 						<CalendarDays className='size-5' />

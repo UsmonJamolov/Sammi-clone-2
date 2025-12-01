@@ -4,13 +4,29 @@ import { IoMdArrowDropright } from 'react-icons/io';
 import { Button } from '../ui/button';
 import { Separator } from '../ui/separator';
 import { useParams, useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { toast } from 'sonner';
+import { enrollment } from '@/actions/course.action';
+import Spinner from '../shared/spinner';
 
 const Enroll = () => {
+	const [loading, setLoading] = useState(false);
+
 	const { slug } = useParams<{ slug: string }>();
 	const router = useRouter();
 
-	const onEnroll = () => {
-		router.push(`/curriculum/courses/${slug}`);
+	const onEnroll = async () => {
+		try {
+			setLoading(true);
+			await enrollment(slug);
+			toast.success('Enrolled successfully');
+			router.push(`/curriculum/courses/${slug}`);
+		} catch (error) {
+			const result = error as Error;
+			toast.error(result.message);
+		} finally {
+			setLoading(false);
+		}
 	};
 
 	return (
@@ -24,9 +40,18 @@ const Enroll = () => {
 
 			<Separator />
 
-			<Button className='w-full mt-4 rounded-full group' size={'lg'} onClick={onEnroll}>
+			<Button
+				className='w-full mt-4 rounded-full group'
+				size={'lg'}
+				onClick={onEnroll}
+				disabled={loading}
+			>
 				<span>Enroll Now</span>
-				<IoMdArrowDropright className='size-4 transition-transform group-hover:translate-x-1' />
+				{loading ? (
+					<Spinner />
+				) : (
+					<IoMdArrowDropright className='size-4 transition-transform group-hover:translate-x-1' />
+				)}
 			</Button>
 		</div>
 	);
