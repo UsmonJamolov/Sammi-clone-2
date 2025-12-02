@@ -7,17 +7,17 @@ import {
 	AccordionTrigger,
 } from '@/components/ui/accordion';
 import { cn } from '@/lib/utils';
-import { SectionType } from '@/types/app.type';
-import { BadgeCheck } from 'lucide-react';
+import { LessonType, SectionType } from '@/types/app.type';
+import { BadgeCheck, CirclePause, CirclePlay } from 'lucide-react';
 import Link from 'next/link';
 import { useParams, usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 interface SectionListProps {
-	sections: SectionType[]
+	sections: SectionType[];
 }
 
-const SectionList = ({sections}: SectionListProps) => {
+const SectionList = ({ sections }: SectionListProps) => {
 	const [currentSection, setCurrentSection] = useState('');
 
 	const { slug, lessonId } = useParams<{ slug: string; lessonId: string }>();
@@ -45,7 +45,7 @@ const SectionList = ({sections}: SectionListProps) => {
 		router.push(`${pathname}${query}`, { scroll: false });
 	}
 
-	const renderLesson = (lesson: { _id: string; title: string }, sectionId: string) => {
+	const renderLesson = (lesson: LessonType, sectionId: string) => {
 		return (
 			<Link
 				className={cn(
@@ -55,7 +55,14 @@ const SectionList = ({sections}: SectionListProps) => {
 				key={lesson._id}
 				href={`/curriculum/courses/${slug}/${lesson._id}?s=${sectionId}`}
 			>
-				<BadgeCheck size={16} />
+				{lesson.isCompleted ? (
+					<BadgeCheck size={16} className='text-primary' />
+				) : lesson._id === lessonId ? (
+					<CirclePause size={16} />
+				) : (
+					<CirclePlay size={16} />
+				)}
+
 				<span className='text-sm'>{lesson.title}</span>
 			</Link>
 		);

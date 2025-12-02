@@ -40,6 +40,7 @@ export type LessonType = {
 	sectionId: string | SectionType;
 	course: string | CourseType;
 	_id: string;
+	isCompleted: boolean;
 };
 
 export type SourceCodeType = {
@@ -59,4 +60,10 @@ export type UserType = {
 export type ImageType = {
 	url: string;
 	key: string;
+};
+
+export type NoteType = {
+	_id: string;
+	lessonId: string;
+	content: string;
 };

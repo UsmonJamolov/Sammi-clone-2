@@ -3,6 +3,7 @@
 import { newCourses } from '@/lib/constants';
 import { generateToken } from './user.action';
 import { axiosClient } from '@/lib/http';
+import { revalidatePath } from 'next/cache';
 
 export const getCourseBySlug = async (slug: string) => {
 	const course = newCourses.find(course => course.slug === slug);
@@ -40,5 +41,42 @@ export const getLessonDetails = async (lessonId: string) => {
 	const res = await axiosClient.get(`/api/course/lesson/${lessonId}`, {
 		headers: { Authorization: `Bearer ${token}` },
 	});
+	return res.data;
+};
+
+export const completeLesson = async (slug: string, currentLessonId: string) => {
+	const token = await generateToken();
+	const res = await axiosClient.post(
+		`/api/course/course/next-lesson`,
+		{ courseId: slug, currentLessonId },
+		{ headers: { Authorization: `Bearer ${token}` } }
+	);
+	return res.data;
+};
+
+export const createNote = async (lessonId: string, content: string) => {
+	const token = await generateToken();
+	const res = await axiosClient.post(
+		`/api/course/notes`,
+		{ lessonId, content },
+		{ headers: { Authorization: `Bearer ${token}` } }
+	);
+	return res.data;
+};
+
+export const getNotes = async (lessonId: string) => {
+	const token = await generateToken();
+	const res = await axiosClient.get(`/api/course/notes/${lessonId}`, {
+		headers: { Authorization: `Bearer ${token}` },
+	});
+	return res.data;
+};
+
+export const deleteNote = async (noteId: string) => {
+	const token = await generateToken();
+	const res = await axiosClient.delete(`/api/course/notes/${noteId}`, {
+		headers: { Authorization: `Bearer ${token}` },
+	});
+	revalidatePath('/curriculum/[slug]');
 	return res.data;
 };

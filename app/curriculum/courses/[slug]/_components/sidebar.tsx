@@ -34,7 +34,7 @@ const CourseSidebar = async ({ slug }: CourseSidebarProps) => {
 			</SidebarContent>
 
 			<SidebarFooter className='flex items-center justify-center'>
-				<Progress />
+				<Progress value={result.data.progress} />
 				<div className='font-space-grotesk'>{result.data.progress}% Completed</div>
 			</SidebarFooter>
 		</Sidebar>
