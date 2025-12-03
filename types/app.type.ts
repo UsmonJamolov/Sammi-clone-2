@@ -20,6 +20,9 @@ export type CourseType = {
 	lessonCount: number;
 
 	thumbnail: string;
+
+	rating: number;
+	reviewsCount: number;
 };
 
 export type SectionType = {
@@ -66,4 +69,13 @@ export type NoteType = {
 	_id: string;
 	lessonId: string;
 	content: string;
+};
+
+export type ReviewType = {
+	_id: string;
+	user: UserType;
+	course: string | CourseType;
+	rating: number;
+	comment: string;
+	createdAt: string;
 };

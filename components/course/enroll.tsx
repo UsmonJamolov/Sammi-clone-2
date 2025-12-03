@@ -20,7 +20,7 @@ const Enroll = () => {
 			setLoading(true);
 			await enrollment(slug);
 			toast.success('Enrolled successfully');
-			router.push(`/curriculum/courses/${slug}`);
+			router.push(`/curriculum/projects/${slug}`);
 		} catch (error) {
 			const result = error as Error;
 			toast.error(result.message);

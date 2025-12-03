@@ -1,13 +1,14 @@
 import { CourseType } from '@/types/app.type';
-import { CalendarDays, List, Star, User } from 'lucide-react';
+import { CalendarDays, List, User } from 'lucide-react';
 import Image from 'next/image';
-import {format} from 'date-fns'
+import { format } from 'date-fns';
+import ReactStars from '../shared/react-stars';
 
 interface HeaderProps {
-	courseData: CourseType
+	courseData: CourseType;
 }
 
-const Header = ({courseData}: HeaderProps) => {
+const Header = ({ courseData }: HeaderProps) => {
 	return (
 		<div className='p-4 lg:p-8 border rounded-lg grid grid-cols-5 gap-x-4 items-center bg-gradient-to-br from-sidebar to-primary/50'>
 			<div className='col-span-3 space-y-4 max-md:col-span-5'>
@@ -33,7 +34,7 @@ const Header = ({courseData}: HeaderProps) => {
 					</div>
 					<div className='flex items-center gap-x-2'>
 						<List className='size-5' />
-						<span>{courseData.lessonCount}</span>
+						<span>{courseData.lessonCount} lessons</span>
 					</div>
 				</div>
 
@@ -42,11 +43,9 @@ const Header = ({courseData}: HeaderProps) => {
 						Duration: <span className='font-medium'>{courseData.duration}</span>
 					</div>
 					<div className='flex items-center gap-x-1'>
-						<span className='text-yellow-600 font-semibold'>5</span>
-						{Array.from({ length: 5 }).map((_, idx) => (
-							<Star key={idx} className='size-4 text-yellow-600 fill-yellow-600' />
-						))}
-						<span>(120)</span>
+						<span className='text-yellow-600 font-semibold'>{courseData.rating}</span>
+						<ReactStars readOnly value={courseData.rating} size={14} />
+						<span>({courseData.reviewsCount})</span>
 					</div>
 				</div>
 			</div>

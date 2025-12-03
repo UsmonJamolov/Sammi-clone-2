@@ -28,9 +28,25 @@ export const getCourseData = async (slug: string) => {
 	return res.data;
 };
 
+export const getProjectData = async (slug: string) => {
+	const token = await generateToken();
+	const res = await axiosClient.get(`/api/course/dashboard/project/data/${slug}`, {
+		headers: { Authorization: `Bearer ${token}` },
+	});
+	return res.data;
+};
+
 export const getCourseCurriculum = async (slug: string) => {
 	const token = await generateToken();
 	const res = await axiosClient.get(`/api/course/dashboard/course/curriculum/${slug}`, {
+		headers: { Authorization: `Bearer ${token}` },
+	});
+	return res.data;
+};
+
+export const getProjectCurriculum = async (slug: string) => {
+	const token = await generateToken();
+	const res = await axiosClient.get(`/api/course/dashboard/project/curriculum/${slug}`, {
 		headers: { Authorization: `Bearer ${token}` },
 	});
 	return res.data;
@@ -54,6 +70,16 @@ export const completeLesson = async (slug: string, currentLessonId: string) => {
 	return res.data;
 };
 
+export const completeProjectLesson = async (slug: string, currentLessonId: string) => {
+	const token = await generateToken();
+	const res = await axiosClient.post(
+		`/api/course/project/next-lesson`,
+		{ courseId: slug, currentLessonId },
+		{ headers: { Authorization: `Bearer ${token}` } }
+	);
+	return res.data;
+};
+
 export const createNote = async (lessonId: string, content: string) => {
 	const token = await generateToken();
 	const res = await axiosClient.post(
@@ -61,6 +87,7 @@ export const createNote = async (lessonId: string, content: string) => {
 		{ lessonId, content },
 		{ headers: { Authorization: `Bearer ${token}` } }
 	);
+	revalidatePath('/curriculum/[slug]');
 	return res.data;
 };
 
@@ -78,5 +105,23 @@ export const deleteNote = async (noteId: string) => {
 		headers: { Authorization: `Bearer ${token}` },
 	});
 	revalidatePath('/curriculum/[slug]');
+	return res.data;
+};
+
+export const createReview = async (slug: string, rating: number, comment: string) => {
+	const token = await generateToken();
+	const res = await axiosClient.post(
+		`/api/course/review`,
+		{ courseId: slug, rating, comment },
+		{ headers: { Authorization: `Bearer ${token}` } }
+	);
+	return res.data;
+};
+
+export const getReview = async (slug: string) => {
+	const token = await generateToken();
+	const res = await axiosClient.get(`/api/course/review/${slug}`, {
+		headers: { Authorization: `Bearer ${token}` },
+	});
 	return res.data;
 };
