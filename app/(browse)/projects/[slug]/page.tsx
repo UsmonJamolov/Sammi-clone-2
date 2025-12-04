@@ -1,5 +1,3 @@
-import { getCourseBySlug } from '@/actions/course.action';
-
 import ForWhom from '@/components/course/for-whom';
 import Header from '@/components/course/header';
 import Learning from '@/components/course/learning';
@@ -15,7 +13,7 @@ interface CourseDetailsPageProps {
 
 const CourseDetailsPage = async ({ params }: CourseDetailsPageProps) => {
 	const { slug } = await params;
-	const data = await getProjectBySlug(slug);
+	const { data } = await getProjectBySlug(slug);
 
 	return (
 		<>
@@ -26,7 +24,7 @@ const CourseDetailsPage = async ({ params }: CourseDetailsPageProps) => {
 					<Learning courseData={data} />
 					<Curriculum projectId={data._id} />
 					<ForWhom courseData={data} />
-					<Review />
+					<Review slug={slug} />
 				</div>
 				<div className='hidden lg:flex lg:w-1/3 sticky top-24'>
 					<Enroll />

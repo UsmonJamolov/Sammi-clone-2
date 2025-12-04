@@ -25,3 +25,8 @@ export function getDuration(lessons: LessonType[]) {
 export const getDurationInMinutes = (lesson: LessonType) => {
 	return parseInt(lesson.hours) * 60 + parseInt(lesson.minutes);
 };
+
+export const getCourseType = (type: string) => {
+	if (type === 'course') return 'courses';
+	if (type === 'project') return 'projects';
+};

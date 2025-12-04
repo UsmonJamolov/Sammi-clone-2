@@ -125,3 +125,22 @@ export const getReview = async (slug: string) => {
 	});
 	return res.data;
 };
+
+export const getDashboardCourses = async () => {
+	const token = await generateToken();
+	const res = await axiosClient.get('/api/course/dashboard', {
+		headers: { Authorization: `Bearer ${token}` },
+	});
+	return res.data;
+};
+
+export const resetCourseProgress = async (courseId: string) => {
+	const token = await generateToken();
+	const res = await axiosClient.post(
+		`/api/course/dashboard/course/reset`,
+		{ courseId },
+		{ headers: { Authorization: `Bearer ${token}` } }
+	);
+	revalidatePath('/dashboard');
+	return res.data;
+};

@@ -38,3 +38,7 @@ export const getCurriculumByProjectId = async (projectId: string) => {
 	const res = await axiosClient.get<{ data: LessonType[] }>(`/api/curriculum-project/${projectId}`);
 	return res.data;
 };
+export const getReviewsData = async (slug: string, limit: number) => {
+	const res = await axiosClient.get(`/api/reviews-data/${slug}?limit=${limit}`);
+	return res.data;
+};

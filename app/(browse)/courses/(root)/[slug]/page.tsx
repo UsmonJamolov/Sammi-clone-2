@@ -24,7 +24,7 @@ const CourseDetailsPage = async ({ params }: CourseDetailsPageProps) => {
 					<Learning courseData={data} />
 					<Curriculum courseId={data._id} />
 					<ForWhom courseData={data} />
-					<Review />
+					<Review slug={slug} />
 				</div>
 				<div className='hidden lg:flex lg:w-1/3 sticky top-24'>
 					<Enroll />

@@ -1,39 +1,39 @@
-import { Star } from 'lucide-react';
-import { Avatar, AvatarFallback } from '../ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import { ReviewType } from '@/types/app.type';
+import ReactStars from '../shared/react-stars';
+import { formatDistanceToNow } from 'date-fns';
 
 interface ReviewCardProps {
-	firstName: string;
-	lastName: string;
-	rating: number;
-	comment: string;
+	review: ReviewType;
 }
 
-const ReviewCard = ({ firstName, lastName, rating, comment }: ReviewCardProps) => {
+const ReviewCard = ({ review }: ReviewCardProps) => {
 	return (
 		<div className='border-t border-t-secondary'>
 			<div className='mt-4 flex gap-2'>
 				<Avatar>
 					<AvatarFallback>
-						{firstName[0]}
-						{lastName[0]}
+						{review.user.firstName[0]}
+						{review.user.lastName[0]}
 					</AvatarFallback>
+					<AvatarImage src={review.user.avatar} />
 				</Avatar>
 
 				<div className='flex flex-col'>
 					<div className='font-space-grotesk font-semibold'>
-						{firstName} {lastName}
+						{review.user.firstName} {review.user.lastName}
 					</div>
 
 					<div className='flex items-center gap-1'>
-						{Array.from({ length: rating }).map((_, index) => (
-							<Star key={index} className='size-4 text-yellow-600 fill-yellow-600' />
-						))}
-						<p className='text-xs text-muted-foreground'>12 days ago</p>
+						<ReactStars readOnly value={review.rating} size={14} />
+						<p className='text-xs text-muted-foreground'>
+							{formatDistanceToNow(new Date(review.createdAt))} ago
+						</p>
 					</div>
 				</div>
 			</div>
 
-			<div className='mt-2 text-sm line-clamp-6'>{comment}</div>
+			<div className='mt-2 text-sm line-clamp-6'>{review.comment}</div>
 		</div>
 	);
 };

@@ -23,6 +23,7 @@ export type CourseType = {
 
 	rating: number;
 	reviewsCount: number;
+	progress: number
 };
 
 export type SectionType = {
@@ -58,6 +59,7 @@ export type UserType = {
 	firstName: string;
 	lastName: string;
 	avatar: ImageType;
+	avatart: string
 };
 
 export type ImageType = {
