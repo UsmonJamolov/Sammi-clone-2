@@ -2,6 +2,8 @@
 
 import { ComponentRef, useEffect, useRef } from 'react';
 import Vimeo from '@vimeo/player';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Loader } from 'lucide-react';
 
 interface VideoPlayerProps {
 	videoId: string;
@@ -40,3 +42,12 @@ const VideoPlayer = ({ videoId }: VideoPlayerProps) => {
 };
 
 export default VideoPlayer;
+
+export const VideoPlayerSkeleton = () => {
+	return (
+		<Skeleton className='aspect-video bg-sidebar rounded-lg border lg:col-span-3 col-span-4 flex justify-center items-center flex-col space-y-2'>
+			<Loader className='animate-spin' />
+			<p className='font-geist_mono animate-pulse text-sm text-center'>Loading</p>
+		</Skeleton>
+	);
+};

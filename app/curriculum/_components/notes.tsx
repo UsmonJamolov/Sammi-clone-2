@@ -1,9 +1,10 @@
 import { Button } from '@/components/ui/button';
-import { Info } from 'lucide-react';
+import { Info, Send  } from 'lucide-react';
 import CreateNote from './create-note';
 import { getNotes } from '@/actions/course.action';
 import NoteList from './note-list';
 import { NoteType } from '@/types/app.type';
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface NotesProps {
 	lessonId: string;
@@ -46,3 +47,29 @@ const Notes = async ({ lessonId }: NotesProps) => {
 };
 
 export default Notes;
+
+export const NoteSkeleton = () => {
+	return (
+		<div className='col-span-1 rounded-lg h-full hidden lg:block'>
+			<div className='bg-sidebar border'>
+				<Skeleton className='rounded-lg h-12' />
+
+				<Skeleton className='h-[320px] w-full bg-transparent rounded-lg' />
+
+				<div className='flex flex-col space-y-1 w-full rounded-b-lg'>
+					<div className='flex items-center gap-x-1 px-1'>
+						<Info className='animate-pulse size-5' />
+						<Skeleton className='w-24 h-4' />
+					</div>
+
+					<div className='flex items-center'>
+						<Skeleton className='flex-1 bg-secondary w-full h-9' />
+						<Button size={'icon'} className='rounded-l-none'>
+							<Send />
+						</Button>
+					</div>
+				</div>
+			</div>
+		</div>
+	);
+};

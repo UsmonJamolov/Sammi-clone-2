@@ -6,6 +6,7 @@ import Curriculum from './_components/curriculum';
 import Enroll from '@/components/course/enroll';
 import MobileEnroll from '@/components/course/mobile-enroll';
 import { getProjectBySlug } from '@/actions/public.action';
+import { getCourseType } from '@/lib/utils';
 
 interface CourseDetailsPageProps {
 	params: Promise<{ slug: string }>;
@@ -27,7 +28,7 @@ const CourseDetailsPage = async ({ params }: CourseDetailsPageProps) => {
 					<Review slug={slug} />
 				</div>
 				<div className='hidden lg:flex lg:w-1/3 sticky top-24'>
-					<Enroll />
+					<Enroll type={getCourseType(data.type)} />
 				</div>
 			</div>
 

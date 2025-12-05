@@ -9,7 +9,8 @@ import {
 } from '@/components/ui/sidebar';
 import { Progress } from '@/components/ui/progress';
 import { getProjectCurriculum } from '@/actions/course.action';
-import LessonList from './lesson-list';
+import LessonList, { LessonListSkeleton } from './lesson-list';
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface CourseSidebarProps {
 	slug: string;
@@ -42,3 +43,26 @@ const CourseSidebar = async ({ slug }: CourseSidebarProps) => {
 };
 
 export default CourseSidebar;
+
+export const DashboardSidebarSkeleton = () => {
+	return (
+		<Sidebar variant='floating' collapsible='offcanvas'>
+			<SidebarContent>
+				<SidebarGroup>
+					<SidebarGroupLabel className='font-geist_mono'>
+						<Skeleton className='w-36 h-4' />
+					</SidebarGroupLabel>
+					<SidebarGroupContent>
+						<SidebarMenu>
+							<LessonListSkeleton />
+						</SidebarMenu>
+					</SidebarGroupContent>
+				</SidebarGroup>
+			</SidebarContent>
+			<SidebarFooter className='flex items-center justify-center'>
+				<Skeleton className='w-full h-6 rounded-full' />
+				<Skeleton className='w-24 h-4 text-center' />
+			</SidebarFooter>
+		</Sidebar>
+	);
+};

@@ -5,8 +5,18 @@ import {
 	AccordionItem,
 	AccordionTrigger,
 } from '@/components/ui/accordion';
+import { Skeleton } from '@/components/ui/skeleton';
 import { getDuration, getDurationInMinutes } from '@/lib/utils';
-import { CalendarRange, ChevronsUpDown, Dot, ListOrdered, Monitor, Video } from 'lucide-react';
+import {
+	CalendarRange,
+	ChevronsLeftRight,
+	ChevronsUpDown,
+	Dot,
+	ListOrdered,
+	Monitor,
+	MonitorPlay,
+	Video,
+} from 'lucide-react';
 
 interface CurriculumProps {
 	courseId: string;
@@ -81,3 +91,51 @@ const Curriculum = async ({ courseId }: CurriculumProps) => {
 };
 
 export default Curriculum;
+
+export const SkeletonCurriculum = () => {
+	return (
+		<div className='bg-sidebar p-4 border rounded-lg mt-6'>
+			<Skeleton className='w-1/2 h-8' />
+
+			<div className='flex flex-row flex-wrap gap-6 mt-2'>
+				<div className='flex flex-col space-y-2'>
+					<ListOrdered className='h-10 w-10 animate-pulse text-secondary' />
+					<Skeleton className='w-32 h-3' />
+					<Skeleton className='w-16 h-5' />
+				</div>
+				<div className='flex flex-col space-y-2'>
+					<MonitorPlay className='h-10 w-10 animate-pulse text-secondary' />
+					<Skeleton className='w-32 h-3' />
+					<Skeleton className='w-16 h-5' />
+				</div>
+				<div className='flex flex-col space-y-2'>
+					<CalendarRange className='h-10 w-10 animate-pulse text-secondary' />
+					<Skeleton className='w-32 h-3' />
+					<Skeleton className='w-16 h-5' />
+				</div>
+			</div>
+
+			<div className='flex flex-col space-y-0 mt-4'>
+				<SectionLoader />
+				<SectionLoader />
+				<SectionLoader />
+			</div>
+		</div>
+	);
+};
+const SectionLoader = () => {
+	return (
+		<div className='py-4 border-b flex justify-between items-center'>
+			<div className='flex items-center gap-2'>
+				<ChevronsUpDown size={16} className='text-secondary animate-pulse' />
+				<Skeleton className='w-32 h-3' />
+			</div>
+
+			<div className='flex items-center gap-x-2'>
+				<Skeleton className='w-16 h-3' />
+				<ChevronsLeftRight className='size-4 text-secondary animate-pulse' />
+				<Skeleton className='w-12 h-3' />
+			</div>
+		</div>
+	);
+};

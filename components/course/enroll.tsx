@@ -9,7 +9,11 @@ import { toast } from 'sonner';
 import { enrollment } from '@/actions/course.action';
 import Spinner from '../shared/spinner';
 
-const Enroll = () => {
+interface EnrollProps {
+	type: string
+}
+
+const Enroll = ({type}: EnrollProps) => {
 	const [loading, setLoading] = useState(false);
 
 	const { slug } = useParams<{ slug: string }>();
@@ -20,7 +24,7 @@ const Enroll = () => {
 			setLoading(true);
 			await enrollment(slug);
 			toast.success('Enrolled successfully');
-			router.push(`/curriculum/projects/${slug}`);
+			router.push(`/curriculum/${type}/${slug}`);
 		} catch (error) {
 			const result = error as Error;
 			toast.error(result.message);

@@ -29,4 +29,10 @@ export const getDurationInMinutes = (lesson: LessonType) => {
 export const getCourseType = (type: string) => {
 	if (type === 'course') return 'courses';
 	if (type === 'project') return 'projects';
+	return 'courses';
 };
+
+export function getRandomWidth() {
+	const widths = ['w-1/2', 'w-1/3', 'w-1/4', 'w-full'];
+	return widths[Math.floor(Math.random() * widths.length)];
+}

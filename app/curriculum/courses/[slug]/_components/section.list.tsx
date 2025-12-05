@@ -6,7 +6,8 @@ import {
 	AccordionItem,
 	AccordionTrigger,
 } from '@/components/ui/accordion';
-import { cn } from '@/lib/utils';
+import { Skeleton } from '@/components/ui/skeleton';
+import { cn, getRandomWidth } from '@/lib/utils';
 import { LessonType, SectionType } from '@/types/app.type';
 import { BadgeCheck, CirclePause, CirclePlay } from 'lucide-react';
 import Link from 'next/link';
@@ -100,3 +101,19 @@ const SectionList = ({ sections }: SectionListProps) => {
 };
 
 export default SectionList;
+
+export const SectionListSkeleton = () => {
+	return (
+		<div className='space-y-2'>
+			{Array.from({ length: 5 }).map((_, i) => (
+				<Skeleton
+					key={i}
+					className='text-left hover:no-underline text-sm font-geist_mono hover:bg-secondary/50 px-2 py-4 flex items-center gap-x-2'
+				>
+					<CirclePlay className='size-4 animate-pulse' />
+					<Skeleton className={`${getRandomWidth()} h-4`} />
+				</Skeleton>
+			))}
+		</div>
+	);
+};
