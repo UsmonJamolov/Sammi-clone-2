@@ -4,22 +4,22 @@ import { DashboardSidebarSkeleton } from './[slug]/_components/sidebar';
 import { DashboardNavbarSkeleton } from '../_components/navbar';
 
 const Loading = () => {
-    const sidebarStyle = {
-        '--sidebar-width': '20rem',
-        '--sidebar-width-mobile': '20rem'
-    } as React.CSSProperties
+	const sidebarStyle = {
+		'--sidebar-width': '20rem',
+		'--sidebar-width-mobile': '20rem',
+	} as React.CSSProperties;
 
-    return (
-        <SidebarProvider style={sidebarStyle}>
-            <DashboardSidebarSkeleton />
-            <main className='w-full mx-2'>
-                <DashboardNavbarSkeleton />
-                <div className="mt-2 container mb-12">
-                    <LessonPageSkeleton />
-                </div>
-            </main>
-        </SidebarProvider>
-    )
-} 
+	return (
+		<SidebarProvider style={sidebarStyle}>
+			<DashboardSidebarSkeleton />
+			<main className='w-full mx-2'>
+				<DashboardNavbarSkeleton />
+				<div className='mt-2 container mb-12'>
+					<LessonPageSkeleton />
+				</div>
+			</main>
+		</SidebarProvider>
+	);
+};
 
-export default Loading
+export default Loading;
