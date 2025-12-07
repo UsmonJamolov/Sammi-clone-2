@@ -4,6 +4,30 @@ import { FaGolang } from 'react-icons/fa6';
 import { SiCplusplus, SiJavascript, SiMysql, SiPhp, SiTypescript, SiYaml } from 'react-icons/si';
 import { PiFileCSharp } from 'react-icons/pi';
 import { MdDarkMode, MdLightMode } from 'react-icons/md';
+import {
+	dracula,
+	monokai,
+	solarizedDark,
+	solarizedLight,
+	githubLight,
+	materialLight,
+	sublime,
+	nord,
+} from '@uiw/codemirror-themes-all';
+import tinycolor from 'tinycolor2';
+import { javascript } from '@codemirror/lang-javascript';
+import { python } from '@codemirror/lang-python';
+import { java } from '@codemirror/lang-java';
+import { cpp } from '@codemirror/lang-cpp';
+import { html } from '@codemirror/lang-html';
+import { css } from '@codemirror/lang-css';
+import { go } from '@codemirror/lang-go';
+import { sql } from '@codemirror/lang-sql';
+import { php } from '@codemirror/lang-php';
+import { rust } from '@codemirror/lang-rust';
+import { markdown } from '@codemirror/lang-markdown';
+import { json } from '@codemirror/lang-json';
+import { yaml } from '@codemirror/lang-yaml';
 
 export const highlightLanguages = [
 	{ icon: SiJavascript, label: 'JavaScript' },
@@ -207,3 +231,101 @@ export const imageBackgrounds = [
 			'https://images.unsplash.com/photo-1479046934034-119c613579a9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1920&q=100',
 	},
 ];
+
+export function getThemeByValue(value: string) {
+	switch (value) {
+		case 'dracula-dark':
+			return dracula;
+		case 'monokai-dark':
+			return monokai;
+		case 'solarized-dark':
+			return solarizedDark;
+		case 'solarized-light':
+			return solarizedLight;
+		case 'github-light':
+			return githubLight;
+		case 'material-light':
+			return materialLight;
+		case 'sublime-text-light':
+			return sublime;
+		case 'nord-dark':
+			return nord;
+		default:
+			return dracula;
+	}
+}
+
+export function getThemeFilenameBackground(value: string): string {
+	const baseColor = themeBackgrounds[value] || '#1e1e1e';
+
+	const isDark = tinycolor(baseColor).isDark();
+
+	return isDark
+		? tinycolor(baseColor).lighten(8).toString()
+		: tinycolor(baseColor).darken(5).toString();
+}
+
+export function getThemeBackgroundColor(value: string): string {
+	return themeBackgrounds[value] || '#1e1e1e';
+}
+
+export function getTextColor(value: string): string {
+	const baseColor = themeBackgrounds[value] || '#1e1e1e';
+
+	const isDark = tinycolor(baseColor).isDark();
+
+	return isDark ? '#ffffff' : '#000000';
+}
+
+const themeBackgrounds: Record<string, string> = {
+	'dracula-dark': '#282a36',
+	'dracula-light': '#f8f8f2',
+	'monokai-dark': '#272822',
+	'solarized-dark': '#002b36',
+	'solarized-light': '#fdf6e3',
+	'night-owl-dark': '#011627',
+	'github-light': '#ffffff',
+	'cobalt2-dark': '#193549',
+	'material-light': '#fafafa',
+	'pochi-light': '#f7f3ed',
+	'sublime-text-light': '#ffffff',
+	'nord-dark': '#2e3440',
+	'oceanic-next-dark': '#304148',
+};
+
+export function getExtensionByLabel(label: string) {
+	switch (label) {
+		case 'JavaScript':
+			return javascript();
+		case 'TypeScript':
+			return javascript({ typescript: true });
+		case 'Python':
+			return python();
+		case 'Java':
+			return java();
+		case 'C++':
+			return cpp();
+		case 'C#':
+			return cpp();
+		case 'HTML':
+			return html();
+		case 'CSS':
+			return css();
+		case 'Go':
+			return go();
+		case 'SQL':
+			return sql();
+		case 'PHP':
+			return php();
+		case 'Rust':
+			return rust();
+		case 'Markdown':
+			return markdown();
+		case 'JSON':
+			return json();
+		case 'YAML':
+			return yaml();
+		default:
+			return javascript();
+	}
+}
