@@ -78,7 +78,7 @@ export const overviewSchema = z.object({
 	whatYouWillLearn: z.string({ error: 'This field is required' }).max(500),
 	keywords: z
 		.string({ error: 'Keywords are required' })
-		.min(5, { message: 'Please enter at least one keyword' })
+		.min(5, { message: 'Please enter at least one keyword' }),
 });
 
 export const sectionSchema = z.object({
@@ -96,4 +96,77 @@ export const lessonSchema = z.object({
 export const sourceCodeSchema = z.object({
 	title: z.string({ error: 'Title is required' }).min(5).max(100),
 	url: z.string({ error: 'URL is required' }).url('Invalid URL').max(200),
+});
+
+export const profileSchema = z.object({
+	id: z.number(),
+	resumeIdentifier: z.string(),
+	name: z.string(),
+	email: z.string(),
+	phone: z.string().optional(),
+	address: z.string().optional(),
+	linkedin: z.string().optional(),
+	github: z.string().optional(),
+	website: z.string().optional(),
+	summary: z.string().optional(),
+	role: z.string().optional(),
+});
+
+export const educationSchema = z.object({
+	eduId: z.string(),
+	resumeIdentifier: z.string(),
+	institutionName: z.string(),
+	degree: z.string(),
+	fieldOfStudy: z.string(),
+	startDate: z.string(),
+	endDate: z.string().optional(),
+	description: z.string().optional(),
+	position: z.number(),
+});
+
+export const experienceSchema = z.object({
+	expId: z.string(),
+	role: z.string(),
+	company: z.string(),
+	location: z.string(),
+	startDate: z.string(),
+	endDate: z.string().optional(),
+	description: z.string().optional(),
+	position: z.number(),
+});
+
+export const projectSchema = z.object({
+	projectId: z.string(),
+	resumeIdentifier: z.string(),
+	projectName: z.string(),
+	deploymentLink: z.string().optional(),
+	repoLink: z.string().optional(),
+	projectDescription: z.string().optional(),
+	position: z.number(),
+});
+
+export const skillSchema = z.object({
+	skillId: z.string(),
+	resumeIdentifier: z.string(),
+	skillCategories: z.string(),
+	skillList: z.string(),
+	position: z.number(),
+});
+
+export const languageSchema = z.object({
+	languageId: z.string(),
+	resumeIdentifier: z.string(),
+	languageName: z.string(),
+	proficiency: z.string().optional(),
+	position: z.number(),
+});
+
+export const certificationSchema = z.object({
+	certificationId: z.string(),
+	resumeIdentifier: z.string(),
+	certificationName: z.string(),
+	certificationAuthority: z.string(),
+	certificationProof: z.string().optional(),
+	date: z.string().optional(),
+	description: z.string().optional(),
 });
