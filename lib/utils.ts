@@ -1,11 +1,10 @@
 import { LessonType } from '@/types/app.type';
-import { clsx, type ClassValue } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { clsx, type ClassValue } from 'clsx';
+import { twMerge } from 'tailwind-merge';
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+	return twMerge(clsx(inputs));
 }
-
 
 export function getDuration(lessons: LessonType[]) {
 	const totalMinutes = lessons.reduce(
@@ -35,4 +34,10 @@ export const getCourseType = (type: string) => {
 export function getRandomWidth() {
 	const widths = ['w-1/2', 'w-1/3', 'w-1/4', 'w-full'];
 	return widths[Math.floor(Math.random() * widths.length)];
+}
+
+export function formatLink(url: string) {
+	url = url.replace(/(^\w+:|^)\/\//, '');
+	url = url.replace(/\/$/, '');
+	return url.split('/')[0];
 }

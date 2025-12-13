@@ -30,8 +30,29 @@ export type Resume = {
 
 export type ResumeStore = Resume & {
 	setProfile: (profileFieldName: string, profileFieldValue: string | number) => void;
+
 	setExperiences: (experience: Experience) => void;
 	updateExperience: (experienceId: string, experience: Experience) => void;
 	setPositionsExperience: (experience: Experience[]) => void;
 	deleteExperience: (experienceId: string) => void;
+
+	setProjects: (project: Project) => void;
+	setPositionsProject: (project: Project[]) => void;
+	updateProject: (projectId: string, project: Project) => void;
+	deleteProject: (projectId: string) => void;
+
+	setEducations: (education: Education) => void;
+	setPositionsEducation: (education: Education[]) => void;
+	updateEducation: (educationId: string, education: Education) => void;
+	deleteEducation: (educationId: string) => void;
+
+	setSkills: (skill: Skill) => void;
+	setPositionsSkill: (skill: Skill[]) => void;
+	updateSkill: (skillId: string, skill: Skill) => void;
+	deleteSkill: (skillId: string) => void;
+
+	setLanguages: (language: Language) => void;
+	setPositionsLanguage: (language: Language[]) => void;
+	updateLanguage: (languageId: string, language: Language) => void;
+	deleteLanguage: (languageId: string) => void;
 };

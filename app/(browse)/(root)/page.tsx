@@ -6,8 +6,8 @@ import { Sparkles } from 'lucide-react';
 import Link from 'next/link';
 
 const HomePage = async () => {
-	const {data} = await getHomePageData()
-	
+	const { data } = await getHomePageData();
+
 	return (
 		<>
 			<div className='grid grid-cols-5 gap-x-4 items-center border rounded-lg p-8 max-md:p-4 bg-gradient-to-br from-sidebar to-primary/40'>

@@ -21,7 +21,6 @@ import {
 	Home,
 	Instagram,
 	Linkedin,
-	Rss,
 	Send,
 	Terminal,
 	UserPen,
@@ -106,7 +105,6 @@ const navbar_items = [
 ];
 
 const startup_items = [
-	{ title: 'Blogs', href: '/blogs', icon: Rss },
 	{ title: 'Resume builder', href: '/resume-builder', icon: UserPen },
 	{ title: 'Beautiful code', href: '/beautiful-code', icon: GitCompareArrows },
 ];

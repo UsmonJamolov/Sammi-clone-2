@@ -10,10 +10,10 @@ import { enrollment } from '@/actions/course.action';
 import Spinner from '../shared/spinner';
 
 interface EnrollProps {
-	type: string
+	type: string;
 }
 
-const Enroll = ({type}: EnrollProps) => {
+const Enroll = ({ type }: EnrollProps) => {
 	const [loading, setLoading] = useState(false);
 
 	const { slug } = useParams<{ slug: string }>();
@@ -28,7 +28,6 @@ const Enroll = ({type}: EnrollProps) => {
 		} catch (error) {
 			const result = error as Error;
 			toast.error(result.message);
-		} finally {
 			setLoading(false);
 		}
 	};

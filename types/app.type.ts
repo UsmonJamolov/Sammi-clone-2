@@ -11,7 +11,7 @@ export type CourseType = {
 	isPublished: boolean;
 	type: string;
 	createdAt: string;
-	enrollmentCount: number
+	enrollmentCount: number;
 
 	previewImage: string;
 	previewVideo: string;
@@ -23,7 +23,7 @@ export type CourseType = {
 
 	rating: number;
 	reviewsCount: number;
-	progress: number
+	progress: number;
 };
 
 export type SectionType = {
@@ -58,8 +58,7 @@ export type UserType = {
 	email: string;
 	firstName: string;
 	lastName: string;
-	avatar: ImageType;
-	avatart: string
+	avatar: string;
 };
 
 export type ImageType = {

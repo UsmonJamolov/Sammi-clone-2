@@ -40,7 +40,6 @@ const Curriculum = async ({ projectId }: CurriculumProps) => {
 
 export default Curriculum;
 
-
 export const SkeletonCurriculum = () => {
 	const lessonSkeleton = (
 		<div className='flex items-center justify-between py-2'>

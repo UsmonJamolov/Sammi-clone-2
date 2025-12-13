@@ -11,8 +11,6 @@ interface Props {
 const Sections = async ({ courseData }: Props) => {
 	const { data } = await getSections(courseData._id);
 
-	console.log(data);
-
 	return (
 		<div className='bg-sidebar p-6 rounded-md border'>
 			<div className='flex items-center justify-between'>

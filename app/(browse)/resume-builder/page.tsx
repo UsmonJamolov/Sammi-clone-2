@@ -3,6 +3,10 @@ import Resume from './_components/resume';
 import { Separator } from '@/components/ui/separator';
 import ProfileForm from './_components/profile.form';
 import Experience from './_components/experience';
+import Project from './_components/project';
+import Education from './_components/education';
+import Skills from './_components/skills';
+import Language from './_components/language';
 
 const Page = () => {
 	return (
@@ -13,6 +17,13 @@ const Page = () => {
 					<Separator />
 					<Experience />
 					<Separator />
+					<Project />
+					<Separator />
+					<Education />
+					<Separator />
+					<Skills />
+					<Separator />
+					<Language />
 				</div>
 			</ScrollArea>
 

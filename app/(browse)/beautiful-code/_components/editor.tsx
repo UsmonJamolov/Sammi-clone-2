@@ -74,7 +74,7 @@ const Editor = () => {
 			<div className='p-8 w-full col-span-4'>
 				<div
 					ref={snippetRef}
-					className='rounded-lg mt-6 w-full flex justify-center items-center col-span-4'
+					className='rounded-lg mt-6 w-full flex justify-center items-center col-end-4'
 				>
 					<div
 						className={cn(

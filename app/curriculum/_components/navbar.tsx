@@ -7,8 +7,8 @@ import { getAuthorizedUser } from '@/actions/user.action';
 import { Skeleton } from '@/components/ui/skeleton';
 
 const Navbar = async () => {
-	const session = await getAuthorizedUser()
-	
+	const session = await getAuthorizedUser();
+
 	return (
 		<div className='w-full h-20 bg-sidebar border-b px-4 mt-2 rounded-lg border sticky top-2 z-50'>
 			<div className='flex items-center justify-between h-full'>

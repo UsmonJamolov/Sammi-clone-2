@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { Info, Send  } from 'lucide-react';
+import { Info, Send } from 'lucide-react';
 import CreateNote from './create-note';
 import { getNotes } from '@/actions/course.action';
 import NoteList from './note-list';

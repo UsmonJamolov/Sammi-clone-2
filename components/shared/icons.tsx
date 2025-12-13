@@ -3,10 +3,10 @@ import { BookA, BookAudio, Languages, LucideIcon, ProjectorIcon } from 'lucide-r
 export type Icon = LucideIcon;
 
 export const Icons = {
-	education: BookA,
-	skill: BookAudio,
-	project: ProjectorIcon,
-	language: Languages,
+	education: () => <BookA className='mr-2 text-primary' />,
+	skill: () => <BookAudio className='mr-2 text-primary' />,
+	project: () => <ProjectorIcon className='mr-2 text-primary' />,
+	language: () => <Languages className='mr-2 text-primary' />,
 	certification: () => (
 		<svg
 			className='size-4 mr-2 stroke-primary fill-primary'

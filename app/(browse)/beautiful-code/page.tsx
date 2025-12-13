@@ -12,9 +12,12 @@ const Page = () => {
 		<>
 			<Head>
 				{/* eslint-disable-next-line @next/next/no-page-custom-font */}
-				<link href='https://fonts.googleapis.com/css2?family=JetBrains+Mono&family=PT+Mono&family=Red+Hat+Mono&family=Roboto+Mono&family=Source+Code+Pro&family=Space+Mono&display=swap'
-					rel='stylesheet'/>
+				<link
+					href='https://fonts.googleapis.com/css2?family=JetBrains+Mono&family=PT+Mono&family=Red+Hat+Mono&family=Roboto+Mono&family=Source+Code+Pro&family=Space+Mono&display=swap'
+					rel='stylesheet'
+				/>
 			</Head>
+
 			<h1 className='text-2xl font-space-grotesk font-semibold'>Beautiful Code</h1>
 			<Separator />
 

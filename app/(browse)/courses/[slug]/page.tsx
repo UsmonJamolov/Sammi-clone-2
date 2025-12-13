@@ -14,7 +14,7 @@ interface CourseDetailsPageProps {
 
 const CourseDetailsPage = async ({ params }: CourseDetailsPageProps) => {
 	const { slug } = await params;
-	const {data} = await getCourseBySlug(slug);
+	const { data } = await getCourseBySlug(slug);
 
 	return (
 		<>

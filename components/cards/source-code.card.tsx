@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import { SourceCodeType } from '@/types/app.type';
 import { Github } from 'lucide-react';

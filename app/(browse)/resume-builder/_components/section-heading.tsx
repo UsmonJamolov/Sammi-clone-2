@@ -10,7 +10,7 @@ const SectionHeading = ({ title, icon }: SectionHeadingProps) => {
 
 	return (
 		<div className='flex  items-center'>
-			<Icon className='w-6 h-6 mr-3' />
+			<Icon />
 			<h2 className='text-xl flex-1 font-space-grotesk font-bold'>{title}</h2>
 		</div>
 	);

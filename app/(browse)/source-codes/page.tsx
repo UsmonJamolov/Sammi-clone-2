@@ -2,8 +2,8 @@ import { getSourceCodes } from '@/actions/public.action';
 import SourceCodeCard from '@/components/cards/source-code.card';
 
 const SourceCodesPage = async () => {
-	const {data} = await getSourceCodes()
-	
+	const { data } = await getSourceCodes();
+
 	return (
 		<>
 			<h1 className='text-2xl font-space-grotesk font-semibold'>Source Codes</h1>

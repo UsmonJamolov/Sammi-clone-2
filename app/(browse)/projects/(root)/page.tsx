@@ -3,8 +3,8 @@ import CourseCard from '@/components/cards/course.card';
 import Link from 'next/link';
 
 const ProjectsPage = async () => {
-	const {data} = await getProjects()
-	
+	const { data } = await getProjects();
+
 	return (
 		<>
 			<h1 className='text-2xl font-space-grotesk font-semibold'>Projects</h1>
